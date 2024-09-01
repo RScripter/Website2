@@ -22,8 +22,13 @@
             background-color: black;
             margin: 20px 0;
         }
+        .button-frame {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
         .button-frame button {
-            width: 100%;
             padding: 10px;
             font-size: 16px;
             box-sizing: border-box;
@@ -31,8 +36,8 @@
             border-radius: 10px;
             background-color: black;
             color: white;
-            margin-top: 10px;
             cursor: pointer;
+            width: 150px;
         }
         .button-frame button:hover {
             background-color: #333;
@@ -43,7 +48,7 @@
             border-radius: 10px;
             background-color: black;
             margin-top: 20px;
-            min-height: 400px; /* Ensure a minimum height for the content area */
+            min-height: 400px;
         }
         .back-button {
             position: fixed;
@@ -71,10 +76,10 @@
     <div class="button-frame">
         <button onclick="loadContent('scripts.html')">Scripts</button>
         <button onclick="loadContent('upload.html')">Upload</button>
+        <button onclick="loadContent('executors.html')">Executors</button>
     </div>
 
     <div class="content-frame" id="contentFrame">
-        <!-- Content from other HTML files will be loaded here -->
         <p>Select an option above to view content.</p>
     </div>
 
@@ -85,12 +90,17 @@
             const contentFrame = document.getElementById('contentFrame');
 
             fetch(page)
-                .then(response => response.text())
+                .then(response => {
+                    if (!response.ok) {
+                        throw new Error('Page not found');
+                    }
+                    return response.text();
+                })
                 .then(html => {
                     contentFrame.innerHTML = html;
                 })
                 .catch(error => {
-                    contentFrame.innerHTML = '<p>Failed to load content.</p>';
+                    contentFrame.innerHTML = '<p>Page could not be found.</p>';
                     console.error('Error loading content:', error);
                 });
         }
