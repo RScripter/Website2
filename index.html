@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECAX Community</title>
+    <title>ECAX Community | Scripts</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,7 +13,7 @@
             color: white;
             text-align: center;
         }
-        .title-frame, .button-frame {
+        .title-frame, .button-frame, .script-list-frame, .script-details-frame {
             width: 100%;
             border: 2px solid red;
             border-radius: 10px;
@@ -40,18 +40,106 @@
         .button-frame button:hover {
             background-color: #333;
         }
+        .script-list-frame {
+            height: calc(100vh - 400px); /* Adjust height to account for title and button frames */
+            overflow-y: auto;
+            background-color: black;
+            border: 2px solid red;
+            border-radius: 10px;
+            padding: 10px;
+            box-sizing: border-box;
+            margin-top: 20px;
+        }
+        .script-list-frame a {
+            display: block;
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 16px;
+            color: white;
+            text-decoration: none;
+            border: 2px solid red;
+            border-radius: 10px;
+            background-color: black;
+            cursor: pointer;
+        }
+        .script-list-frame a:hover {
+            background-color: #333;
+        }
+        .back-button {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid red;
+            border-radius: 10px;
+            background-color: black;
+            color: white;
+            cursor: pointer;
+        }
+        .back-button:hover {
+            background-color: #333;
+        }
+        /* Script details frame */
+        .script-details-frame {
+            display: none; /* Initially hidden */
+            padding: 20px;
+            background-color: black;
+            border: 2px solid red;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: left;
+            color: white;
+        }
     </style>
 </head>
 <body>
 
     <div class="title-frame">
-        <h1>ECAX Community</h1>
+        <h1>ECAX Community | Scripts</h1>
     </div>
 
     <div class="button-frame">
-        <button onclick="window.location.href='/Scripts'">Community Scripts</button>
-        <button onclick="window.location.href='/executors'">Executors</button>
+        <button onclick="window.location.href='/Scripts/Upload'">Upload</button>
     </div>
+
+    <div class="script-list-frame">
+        <h2>Uploaded Scripts</h2>
+        <!-- Dynamically generated script links will be added here -->
+    </div>
+
+    <div class="script-details-frame" id="scriptDetails">
+        <!-- Script details will be shown here -->
+    </div>
+
+    <button class="back-button" onclick="window.history.back()">Back</button>
+
+    <script>
+        const scripts = [
+            // This would be dynamically populated or fetched from the server
+            { title: 'Sample Script 1', content: 'This is the content of Sample Script 1' },
+            { title: 'Sample Script 2', content: 'This is the content of Sample Script 2' }
+        ];
+
+        const scriptListFrame = document.querySelector('.script-list-frame');
+        const scriptDetailsFrame = document.getElementById('scriptDetails');
+
+        scripts.forEach(script => {
+            const scriptLink = document.createElement('a');
+            scriptLink.textContent = script.title;
+            scriptLink.href = "#"; // Prevent default navigation
+            scriptLink.onclick = (event) => {
+                event.preventDefault(); // Prevent the default link behavior
+                showScriptDetails(script);
+            };
+            scriptListFrame.appendChild(scriptLink);
+        });
+
+        function showScriptDetails(script) {
+            scriptDetailsFrame.innerHTML = `<h2>${script.title}</h2><p>${script.content}</p>`;
+            scriptDetailsFrame.style.display = 'block';
+        }
+    </script>
 
 </body>
 </html>
