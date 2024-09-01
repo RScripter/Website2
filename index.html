@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ECAX Community | Scripts</title>
+    <title>ECAX Community</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -13,7 +13,7 @@
             color: white;
             text-align: center;
         }
-        .title-frame, .button-frame, .script-list-frame, .script-details-frame {
+        .title-frame {
             width: 100%;
             border: 2px solid red;
             border-radius: 10px;
@@ -21,9 +21,6 @@
             padding: 20px;
             background-color: black;
             margin: 20px 0;
-        }
-        .title-frame h1 {
-            margin: 0;
         }
         .button-frame button {
             width: 100%;
@@ -40,30 +37,13 @@
         .button-frame button:hover {
             background-color: #333;
         }
-        .script-list-frame {
-            height: calc(100vh - 400px); /* Adjust height to account for title and button frames */
-            overflow-y: auto;
-            background-color: black;
+        .content-frame {
+            padding: 20px;
             border: 2px solid red;
             border-radius: 10px;
-            padding: 10px;
-            box-sizing: border-box;
+            background-color: black;
             margin-top: 20px;
-        }
-        .script-list-frame a {
-            display: block;
-            padding: 10px;
-            margin-top: 10px;
-            font-size: 16px;
-            color: white;
-            text-decoration: none;
-            border: 2px solid red;
-            border-radius: 10px;
-            background-color: black;
-            cursor: pointer;
-        }
-        .script-list-frame a:hover {
-            background-color: #333;
+            min-height: 400px; /* Ensure a minimum height for the content area */
         }
         .back-button {
             position: fixed;
@@ -80,64 +60,43 @@
         .back-button:hover {
             background-color: #333;
         }
-        /* Script details frame */
-        .script-details-frame {
-            display: none; /* Initially hidden */
-            padding: 20px;
-            background-color: black;
-            border: 2px solid red;
-            border-radius: 10px;
-            margin-top: 20px;
-            text-align: left;
-            color: white;
-        }
     </style>
 </head>
 <body>
 
     <div class="title-frame">
-        <h1>ECAX Community | Scripts</h1>
+        <h1>ECAX Community</h1>
     </div>
 
     <div class="button-frame">
-        <button onclick="window.location.href='/Scripts/Upload'">Upload</button>
+        <button onclick="loadContent('scripts.html')">Scripts</button>
+        <button onclick="loadContent('upload.html')">Upload</button>
     </div>
 
-    <div class="script-list-frame">
-        <h2>Uploaded Scripts</h2>
-        <!-- Dynamically generated script links will be added here -->
+    <div class="content-frame" id="contentFrame">
+        <!-- Content from other HTML files will be loaded here -->
+        <p>Select an option above to view content.</p>
     </div>
 
-    <div class="script-details-frame" id="scriptDetails">
-        <!-- Script details will be shown here -->
-    </div>
-
-    <button class="back-button" onclick="window.history.back()">Back</button>
+    <button class="back-button" onclick="goBack()">Back</button>
 
     <script>
-        const scripts = [
-            // This would be dynamically populated or fetched from the server
-            { title: 'Sample Script 1', content: 'This is the content of Sample Script 1' },
-            { title: 'Sample Script 2', content: 'This is the content of Sample Script 2' }
-        ];
+        function loadContent(page) {
+            const contentFrame = document.getElementById('contentFrame');
 
-        const scriptListFrame = document.querySelector('.script-list-frame');
-        const scriptDetailsFrame = document.getElementById('scriptDetails');
+            fetch(page)
+                .then(response => response.text())
+                .then(html => {
+                    contentFrame.innerHTML = html;
+                })
+                .catch(error => {
+                    contentFrame.innerHTML = '<p>Failed to load content.</p>';
+                    console.error('Error loading content:', error);
+                });
+        }
 
-        scripts.forEach(script => {
-            const scriptLink = document.createElement('a');
-            scriptLink.textContent = script.title;
-            scriptLink.href = "#"; // Prevent default navigation
-            scriptLink.onclick = (event) => {
-                event.preventDefault(); // Prevent the default link behavior
-                showScriptDetails(script);
-            };
-            scriptListFrame.appendChild(scriptLink);
-        });
-
-        function showScriptDetails(script) {
-            scriptDetailsFrame.innerHTML = `<h2>${script.title}</h2><p>${script.content}</p>`;
-            scriptDetailsFrame.style.display = 'block';
+        function goBack() {
+            window.history.back();
         }
     </script>
 
