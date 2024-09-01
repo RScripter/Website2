@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECAX Community | Upload</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: white;
+        }
+        .title-frame, .features-frame {
+            width: 100%;
+            border: 2px solid red;
+            border-radius: 10px;
+            box-sizing: border-box;
+            padding: 20px;
+            text-align: center;
+            background-color: black;
+            margin: 20px 0;
+        }
+        .title-frame h1 {
+            margin: 0;
+        }
+        .input-container {
+            width: 50%;
+            margin: 0 auto;
+        }
+        input[type="text"], button {
+            width: 80%;
+            padding: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+            border: 2px solid red;
+            border-radius: 10px;
+            background-color: black;
+            color: white;
+            margin-top: 10px;
+        }
+        .input-container input[type="text"] {
+            text-align: center; /* Center text inside the textbox */
+        }
+        button {
+            background-color: black;
+            color: white;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #333;
+        }
+        .back-button {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid red;
+            border-radius: 10px;
+            background-color: black;
+            color: white;
+            cursor: pointer;
+        }
+        .back-button:hover {
+            background-color: #333;
+        }
+    </style>
+    <script>
+        function uploadScript() {
+            const title = document.getElementById('titleInput').value;
+            const script = document.getElementById('scriptInput').value;
+
+            if (title && script) {
+                // Redirect to the scripts page with query parameters
+                window.location.href = `/Scripts?title=${encodeURIComponent(title)}&script=${encodeURIComponent(script)}`;
+            } else {
+                alert('Please provide both a title and a script.');
+            }
+        }
+    </script>
+</head>
+<body>
+
+    <div class="title-frame">
+        <h1>ECAX Community | Upload</h1>
+    </div>
+
+    <div class="features-frame">
+        <div class="input-container">
+            <input type="text" id="titleInput" placeholder="Title">
+            <input type="text" id="scriptInput" placeholder="Script">
+            <button onclick="uploadScript()">Upload</button>
+        </div>
+    </div>
+
+    <button class="back-button" onclick="window.history.back()">Back</button>
+
+</body>
+</html>

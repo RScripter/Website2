@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECAX Community | Script Info</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: white;
+            text-align: center;
+        }
+        .title-frame, .script-info-frame {
+            width: 100%;
+            border: 2px solid red;
+            border-radius: 10px;
+            box-sizing: border-box;
+            padding: 20px;
+            background-color: black;
+            margin: 20px 0;
+        }
+        .title-frame h1, .script-info-frame h2 {
+            margin: 0;
+        }
+        .script-info-frame pre {
+            text-align: left;
+            background-color: #333;
+            border-radius: 10px;
+            padding: 10px;
+            white-space: pre-wrap; /* Preserve formatting */
+        }
+        .back-button {
+            position: fixed;
+            bottom: 10px;
+            left: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border: 2px solid red;
+            border-radius: 10px;
+            background-color: black;
+            color: white;
+            cursor: pointer;
+        }
+        .back-button:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="title-frame">
+        <h1>ECAX Community | Script Info</h1>
+    </div>
+
+    <div class="script-info-frame">
+        <h2 id="scriptTitle">Script Title</h2>
+        <pre id="scriptContent">Script content will be displayed here.</pre>
+    </div>
+
+    <button class="back-button" onclick="window.history.back()">Back</button>
+
+    <script>
+        function getQueryParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                title: params.get('title'),
+                script: params.get('script')
+            };
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const { title, script } = getQueryParams();
+            if (title && script) {
+                document.getElementById('scriptTitle').textContent = decodeURIComponent(title);
+                document.getElementById('scriptContent').textContent = decodeURIComponent(script);
+            }
+        });
+    </script>
+
+</body>
+</html>

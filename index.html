@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ECAX Community</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: black;
+            color: white;
+            text-align: center;
+        }
+        .title-frame, .button-frame {
+            width: 100%;
+            border: 2px solid red;
+            border-radius: 10px;
+            box-sizing: border-box;
+            padding: 20px;
+            background-color: black;
+            margin: 20px 0;
+        }
+        .title-frame h1 {
+            margin: 0;
+        }
+        .button-frame button {
+            width: 100%;
+            padding: 10px;
+            font-size: 16px;
+            box-sizing: border-box;
+            border: 2px solid red;
+            border-radius: 10px;
+            background-color: black;
+            color: white;
+            margin-top: 10px;
+            cursor: pointer;
+        }
+        .button-frame button:hover {
+            background-color: #333;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="title-frame">
+        <h1>ECAX Community</h1>
+    </div>
+
+    <div class="button-frame">
+        <button onclick="window.location.href='/Scripts'">Community Scripts</button>
+        <button onclick="window.location.href='/executors'">Executors</button>
+    </div>
+
+</body>
+</html>
