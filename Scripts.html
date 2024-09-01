@@ -60,6 +60,7 @@
             border: 2px solid red;
             border-radius: 10px;
             background-color: black;
+            cursor: pointer;
         }
         .script-list-frame a:hover {
             background-color: #333;
@@ -79,6 +80,17 @@
         .back-button:hover {
             background-color: #333;
         }
+        /* Script details frame */
+        .script-details-frame {
+            display: none; /* Initially hidden */
+            padding: 20px;
+            background-color: black;
+            border: 2px solid red;
+            border-radius: 10px;
+            margin-top: 20px;
+            text-align: left;
+            color: white;
+        }
     </style>
 </head>
 <body>
@@ -93,10 +105,36 @@
 
     <div class="script-list-frame">
         <h2>Uploaded Scripts</h2>
-        <!-- Uploaded scripts will be dynamically added here -->
+        <!-- Dynamically generated script links will be added here -->
+    </div>
+
+    <div class="script-details-frame" id="scriptDetails">
+        <!-- Script details will be shown here -->
     </div>
 
     <button class="back-button" onclick="window.history.back()">Back</button>
+
+    <script>
+        const scripts = [
+            { title: 'Sample Script 1', content: 'This is the content of Sample Script 1' },
+            { title: 'Sample Script 2', content: 'This is the content of Sample Script 2' }
+        ];
+
+        const scriptListFrame = document.querySelector('.script-list-frame');
+
+        scripts.forEach(script => {
+            const scriptLink = document.createElement('a');
+            scriptLink.textContent = script.title;
+            scriptLink.onclick = () => showScriptDetails(script);
+            scriptListFrame.appendChild(scriptLink);
+        });
+
+        function showScriptDetails(script) {
+            const scriptDetailsFrame = document.getElementById('scriptDetails');
+            scriptDetailsFrame.innerHTML = `<h2>${script.title}</h2><p>${script.content}</p>`;
+            scriptDetailsFrame.style.display = 'block';
+        }
+    </script>
 
 </body>
 </html>
