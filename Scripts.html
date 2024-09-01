@@ -7,89 +7,47 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
             background-color: black;
             color: white;
             text-align: center;
-        }
-        .title-frame, .button-frame, .script-list-frame {
-            width: 100%;
-            border: 2px solid red;
-            border-radius: 10px;
-            box-sizing: border-box;
-            padding: 20px;
-            background-color: black;
-            margin: 20px 0;
-        }
-        .title-frame h1 {
             margin: 0;
+            padding: 20px;
         }
-        .button-frame button {
+        .title-frame {
             width: 100%;
-            padding: 10px;
-            font-size: 16px;
-            box-sizing: border-box;
             border: 2px solid red;
             border-radius: 10px;
-            background-color: black;
-            color: white;
-            margin-top: 10px;
-            cursor: pointer;
-        }
-        .button-frame button:hover {
-            background-color: #333;
-        }
-        .script-list-frame {
-            height: calc(100vh - 220px); /* Adjust height to account for title and button frames */
-            overflow-y: auto;
-            background-color: black;
-            border: 2px solid red;
-            border-radius: 10px;
-            padding: 10px;
-            box-sizing: border-box;
-            margin-top: 20px;
-        }
-        .script-list-frame a {
-            display: block;
-            padding: 10px;
-            margin-top: 10px;
-            font-size: 16px;
-            color: white;
-            text-decoration: none;
-            border: 2px solid red;
-            border-radius: 10px;
-            background-color: black;
-            cursor: pointer;
-        }
-        .script-list-frame a:hover {
-            background-color: #333;
-        }
-        .back-button {
-            position: fixed;
-            bottom: 10px;
-            left: 10px;
-            padding: 10px;
-            font-size: 16px;
-            border: 2px solid red;
-            border-radius: 10px;
-            background-color: black;
-            color: white;
-            cursor: pointer;
-        }
-        .back-button:hover {
-            background-color: #333;
-        }
-        /* Script details frame */
-        .script-details-frame {
-            display: none; /* Initially hidden */
             padding: 20px;
             background-color: black;
+            margin-bottom: 20px;
+        }
+        .upload-frame {
+            width: 100%;
             border: 2px solid red;
             border-radius: 10px;
-            margin-top: 20px;
-            text-align: left;
-            color: white;
+            padding: 20px;
+            background-color: black;
+            margin-bottom: 20px;
+        }
+        .scrolling-frame {
+            width: 100%;
+            height: calc(100vh - 320px); /* Adjust based on the height of the other frames */
+            overflow-y: auto;
+            border: 2px solid red;
+            border-radius: 10px;
+            padding: 10px;
+            background-color: black;
+        }
+        .script-item {
+            margin: 10px 0;
+            padding: 10px;
+            border: 2px solid red;
+            border-radius: 10px;
+            background-color: black;
+            cursor: pointer;
+        }
+        .script-item:hover {
+            background-color: #333;
         }
     </style>
 </head>
@@ -99,40 +57,52 @@
         <h1>ECAX Community | Scripts</h1>
     </div>
 
-    <div class="button-frame">
-        <button onclick="window.location.href='/Scripts/Upload'">Upload</button>
+    <div class="upload-frame">
+        <h2>Upload Your Script</h2>
+        <div class="input-container">
+            <input type="text" id="titleInput" placeholder="Title" style="width: 80%; padding: 10px; font-size: 16px; border: 2px solid red; border-radius: 10px; background-color: black; color: white; margin-top: 10px;">
+            <input type="text" id="scriptInput" placeholder="Script URL" style="width: 80%; padding: 10px; font-size: 16px; border: 2px solid red; border-radius: 10px; background-color: black; color: white; margin-top: 10px;">
+            <button onclick="addScript()" style="width: 100%; padding: 10px; font-size: 16px; border: 2px solid red; border-radius: 10px; background-color: black; color: white; margin-top: 10px;">Upload</button>
+        </div>
     </div>
 
-    <div class="script-list-frame">
-        <h2>Uploaded Scripts</h2>
-        <!-- Dynamically generated script links will be added here -->
+    <div class="scrolling-frame" id="scriptList">
+        <!-- List of scripts will be displayed here -->
     </div>
-
-    <div class="script-details-frame" id="scriptDetails">
-        <!-- Script details will be shown here -->
-    </div>
-
-    <button class="back-button" onclick="window.history.back()">Back</button>
 
     <script>
-        const scripts = [
-            { title: 'Sample Script 1', content: 'This is the content of Sample Script 1' },
-            { title: 'Sample Script 2', content: 'This is the content of Sample Script 2' }
-        ];
+        function addScript() {
+            const title = document.getElementById('titleInput').value;
+            const script = document.getElementById('scriptInput').value;
 
-        const scriptListFrame = document.querySelector('.script-list-frame');
+            if (title && script) {
+                const scriptList = document.getElementById('scriptList');
 
-        scripts.forEach(script => {
-            const scriptLink = document.createElement('a');
-            scriptLink.textContent = script.title;
-            scriptLink.onclick = () => showScriptDetails(script);
-            scriptListFrame.appendChild(scriptLink);
-        });
+                const newScript = document.createElement('div');
+                newScript.className = 'script-item';
+                newScript.textContent = title;
+                newScript.onclick = function() {
+                    loadScriptDetails(title, script);
+                };
 
-        function showScriptDetails(script) {
-            const scriptDetailsFrame = document.getElementById('scriptDetails');
-            scriptDetailsFrame.innerHTML = `<h2>${script.title}</h2><p>${script.content}</p>`;
-            scriptDetailsFrame.style.display = 'block';
+                scriptList.appendChild(newScript);
+
+                // Clear the input fields after adding the script
+                document.getElementById('titleInput').value = '';
+                document.getElementById('scriptInput').value = '';
+            } else {
+                alert('Please provide both a title and a script URL.');
+            }
+        }
+
+        function loadScriptDetails(title, scriptUrl) {
+            const contentFrame = document.getElementById('contentFrame');
+            contentFrame.innerHTML = `
+                <div>
+                    <h2>${title}</h2>
+                    <p><a href="${scriptUrl}" target="_blank">Download Script</a></p>
+                </div>
+            `;
         }
     </script>
 
